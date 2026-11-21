@@ -59,11 +59,11 @@ body{
 .topbar .brand img{ height:22px; width:auto; }
 .topbar .doc-sub{ color:#C9BFA6; font-size:12px; font-weight:400; margin-left:2px; }
 .topbar .spacer{ flex:1; }
-.topbar button{
+.topbar button,.topbar a.sitelink{
   appearance:none; border:1px solid rgba(174,134,38,.6); background:transparent; color:#F0E7CE;
   font-family:'Inter',sans-serif; font-size:13px; font-weight:600; padding:7px 14px; border-radius:999px; cursor:pointer;
 }
-.topbar button:hover{ background:rgba(174,134,38,.18); }
+.topbar button:hover,.topbar a.sitelink:hover{ background:rgba(174,134,38,.18); }
 
 .nav-overlay{
   position:fixed; inset:0; z-index:70; display:none;
@@ -344,8 +344,8 @@ html[data-theme="dark"] .lead, html[data-theme="dark"] h4.minor{ color:#d3d4dc; 
 html[data-theme="dark"] h3.sub, html[data-theme="dark"] h1, html[data-theme="dark"] h2{ color:#fff; }
 html[data-theme="dark"] a{ color:var(--gold-deep); }
 html[data-theme="dark"] .topbar{ background:rgba(6,7,12,.94); box-shadow:0 1px 0 rgba(255,122,26,.45); backdrop-filter:blur(8px); }
-html[data-theme="dark"] .topbar button{ border-color:rgba(255,122,26,.6); color:#ffd9bd; }
-html[data-theme="dark"] .topbar button:hover{ background:rgba(255,122,26,.16); }
+html[data-theme="dark"] .topbar button,.topbar a.sitelink{ border-color:rgba(255,122,26,.6); color:#ffd9bd; }
+html[data-theme="dark"] .topbar button:hover,.topbar a.sitelink:hover{ background:rgba(255,122,26,.16); }
 html[data-theme="dark"] .scroll-progress{ background:#ff7a1a; }
 html[data-theme="dark"] .nav-panel{ background:#0b0c12; color:#e8e8ec; }
 html[data-theme="dark"] .nav-panel a{ color:#e8e8ec; } html[data-theme="dark"] .nav-panel a:hover{ background:rgba(255,122,26,.14); }
@@ -424,7 +424,8 @@ html[data-theme="dark"] td[colspan]{ color:var(--ink); }
   .topbar .brand{ font-size:0; }
   .topbar .search{ flex:1 1 auto; min-width:0; max-width:none; }
   .topbar .count{ display:none; }
-  .topbar button{ padding:6px 10px; font-size:12px; white-space:nowrap; flex:none; }
+  .topbar button,.topbar a.sitelink{ padding:6px 10px; font-size:12px; white-space:nowrap; flex:none; }
+.topbar a.sitelink{ text-decoration:none; display:inline-flex; align-items:center; }
   .topbar .spacer{ display:none; }
   .topbar button.ab{ display:none; }
 }
@@ -2335,7 +2336,7 @@ window.addEventListener('scroll',function(){
 (function(){
  var root=document.documentElement, KEY='zs-theme';
  var rtl=root.getAttribute('dir')==='rtl'||document.body.getAttribute('dir')==='rtl';
- var L=rtl?{search:'ابحث في الدليل…',theme:'الوضع',copy:'نسخ الجدول',copied:'تم النسخ',hits:'نتيجة',top:'أعلى',all:'فتح/طي الكل'}:{search:'Search the guide…',theme:'Theme',copy:'Copy table',copied:'Copied',hits:'matches',top:'Top',all:'Expand / collapse all'};
+ var L=rtl?{search:'ابحث في الدليل…',theme:'الوضع',copy:'نسخ الجدول',copied:'تم النسخ',hits:'نتيجة',top:'أعلى',all:'فتح/طي الكل',site:'الموقع'}:{search:'Search the guide…',theme:'Theme',copy:'Copy table',copied:'Copied',hits:'matches',top:'Top',all:'Expand / collapse all',site:'Website'};
  function setTheme(t){root.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t)}catch(e){}}
  var saved=null;try{saved=localStorage.getItem(KEY)}catch(e){}
  setTheme(saved||'dark');
@@ -2345,7 +2346,8 @@ window.addEventListener('scroll',function(){
  bar.insertBefore(s,spacer);
  var tb=document.createElement('button');tb.textContent=L.theme+' ◐';tb.onclick=function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark')};
  var ab=document.createElement('button');ab.textContent=L.all;ab.className='ab';
- bar.insertBefore(ab,document.getElementById('navToggle'));bar.insertBefore(tb,document.getElementById('navToggle'));
+ var wb=document.createElement('a');wb.className='sitelink';wb.href='https://zakstudiopro.github.io/';wb.target='_blank';wb.rel='noopener';wb.textContent=L.site;
+ bar.insertBefore(ab,document.getElementById('navToggle'));bar.insertBefore(tb,document.getElementById('navToggle'));bar.insertBefore(wb,document.getElementById('navToggle'));
  // collapsible chapters
  var chs=[].slice.call(document.querySelectorAll('section.chapter'));
  chs.forEach(function(c){var h=c.querySelector('.ch-head');if(!h)return;
